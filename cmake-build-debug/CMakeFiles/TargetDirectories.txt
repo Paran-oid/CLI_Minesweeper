@@ -1,0 +1,3 @@
+/home/aziz/Documents/Coding/Projects/Minesweeper/cmake-build-debug/CMakeFiles/Minesweeper.dir
+/home/aziz/Documents/Coding/Projects/Minesweeper/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/aziz/Documents/Coding/Projects/Minesweeper/cmake-build-debug/CMakeFiles/rebuild_cache.dir
