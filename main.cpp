@@ -7,7 +7,7 @@
 int main(int argc, char const *argv[])
 {
     std::cout << "Welcome to Minesweeper! \n"
-                 "Do you want to initialize the rows and columns?(Y/N) \n";
+                 "Do you want to initialize the rows?(Y/N) \n";
 
     //check if user wants to input his own rows or not
     char choice;
@@ -19,18 +19,21 @@ int main(int argc, char const *argv[])
     int cols {0};
     if(choice == 'Y') {
         do {
-            std::cout << "enter rows, then the columns \n";
-            std::cin >> rows >> cols;
-        }while(rows < 10 || cols < 10);
+            std::cout << "enter the number of rows\n";
+            std::cin >> rows;
+            cols = rows + 10;
+        }while(rows < 10);
     }
 
     auto g{std::make_unique<Game>(rows, cols)};
+    rows = g->rows();
+    cols = g->cols();
+
+    int row;
+    int col;
 
     while(true) {
         while(g->running()) {
-            int row;
-            int col;
-
             g->display();
             do {
                 std::cout << "Your input:(row) \n \n";
@@ -38,7 +41,7 @@ int main(int argc, char const *argv[])
 
                 std::cout << "Your input:(col) \n \n";
                 std::cin >> col;
-            }while
+            }while(row >= rows || row < 0 || col >= cols || col < 0 );
 
             auto cords = std::pair<int,int>(row, col);
 
@@ -48,17 +51,17 @@ int main(int argc, char const *argv[])
 
             g->choose(cords);
         }
-        char choice;
         do {
             std::cout << "try again?(Y/N) \n";
             std::cin >> choice;
-        } while(std::toupper(choice) == 'Y' || std::toupper(choice) == 'N' );
-        if(choice == 'Y') break;
+        } while(std::toupper(choice) != 'Y' && std::toupper(choice) != 'N' );
+        if(choice == 'N') break;
+        else g->run();
     }
     std::cout << "thank you for trying my game! \n";
 }
 
 
-//MAKE MATRIX NOT SQUARED, IT COULD BE OF DIMENSION 10 15/20 ETC, PREFERABLY COLUMNS MUST BE BIGGER THAN ROWS BY 10 COLUMNS AT LEAST
-//MAKE GETTER FOR WIDTH
+//NEED TO SOMEHOW IMPLEMENT DFS TO TRAVERSE CELLS THAT ARE NOT BOMBS!
 //USE WHAT I LEARNED FROM ALL THE TUTORIALS
+//ADD GUI!

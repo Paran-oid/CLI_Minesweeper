@@ -10,7 +10,7 @@ void Game::init(const std::pair<int, int>& cell) {
     std::mt19937 mt(rd());
     std::uniform_int_distribution uid(0, 1);
 
-    //initalize bombs for some
+    //initialize bombs for some
     for(std::size_t i = 0; i < m_grid.size(); i++) {
         for(std::size_t j = 0; j < m_grid[i].size(); j++) {
             Cell cell = {uid(mt) == 1, false, 0};
@@ -53,8 +53,8 @@ void Game::init(const std::pair<int, int>& cell) {
     stop_index.second = std::min(cell.second + 1, static_cast<int>(m_grid[0].size()) - 1);
 
     for(int i = start_index.first; i <= stop_index.first; i++) {
-        for(int j = start_index.first; i <= stop_index.second; j++) {
-            m_grid[i][j] = {true, true, 0};
+        for(int j = start_index.first; j <= stop_index.second; j++) {
+            m_grid[i][j] = {false, false, 0};
         }
     }
 }
@@ -70,7 +70,8 @@ void Game::display() {
     else {
         for(std::size_t i = 0; i < m_grid.size(); i++) {
             for(std::size_t j = 0; j < m_grid[i].size(); j++) {
-                std::cout << (!m_grid[i][j].is_picked ? '*' : m_grid[i][j].content) << ' ';
+                if(m_grid[i][j].is_picked) std::cout << m_grid[i][j].content << ' ';
+                else std::cout << '*' << ' ';
             }
             std::cout << '\n';
         }
@@ -78,10 +79,10 @@ void Game::display() {
 }
 void Game::choose(const std::pair<int, int> &cell) {
     auto& picked_cell = m_grid[cell.first][cell.second];
-    if(m_grid[cell.first][cell.second].is_bomb) {
+    if(picked_cell.is_bomb) {
         picked_cell.is_picked = true;
         m_running = false;
-        std::cout << "you lost!";
+        std::cout << "you lost! \n";
         return;
     }
     picked_cell.is_picked = true;

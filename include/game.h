@@ -27,7 +27,7 @@ public:
             std::uniform_int_distribution uid(10, 50);
 
             int rows = uid(mt);
-            int columns = uid(mt);
+            int columns = rows + 10;
 
             m_grid.resize(rows);
             for(int i = 0; i < m_grid.size(); i++) {
@@ -51,6 +51,11 @@ public:
     //getters and setters
     bool initialized() const{ return m_initialized;}
     bool running() const {return m_running;}
+
+    void run(){m_running = true;}
+
+    int rows() const{return m_grid.size();}
+    int cols() const{return m_grid[0].size();}
 
 private:
     std::vector<std::vector<Cell>> m_grid;
