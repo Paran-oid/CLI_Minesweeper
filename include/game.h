@@ -12,9 +12,9 @@
 struct Cell {
     bool is_bomb;
     bool is_picked;
-    unsigned int content;
+    std::string content;
+    std::pair<int,int> cords;
 };
-
 class Game {
 public:
     //constructors
@@ -44,9 +44,10 @@ public:
 
     //methods
     void display();
-    void init(const std::pair<int, int>& cell);
-    void choose(const std::pair<int,int>& cell);
+    void init(const std::pair<int, int>& cell_cords);
+    void choose(const std::pair<int,int>& cell_cords);
     void check();
+    void dfs(std::vector<std::vector<Cell>>& m_grid, int x, int y, int rows, int cols);
 
     //getters and setters
     bool initialized() const{ return m_initialized;}

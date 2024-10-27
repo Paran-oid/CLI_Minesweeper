@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
 
                 std::cout << "Your input:(col) \n \n";
                 std::cin >> col;
-            }while(row >= rows || row < 0 || col >= cols || col < 0 );
+            }while(row >= rows || row < 0 || col >= cols || col < 0);
 
             auto cords = std::pair<int,int>(row, col);
 
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
     std::cout << "thank you for trying my game! \n";
 }
 
-
-//NEED TO SOMEHOW IMPLEMENT DFS TO TRAVERSE CELLS THAT ARE NOT BOMBS!
+//DIVIDE CHUNKS OF CODE INTO MULTIPLE CPP FILES
+//OPTIMIZE AND CLEAN CODE
 //USE WHAT I LEARNED FROM ALL THE TUTORIALS
 //ADD GUI!
