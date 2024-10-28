@@ -13,13 +13,13 @@ void Game::init(const std::pair<int, int>& cell_cords) {
     //initialize bombs for some
     for(std::size_t i = 0; i < m_grid.size(); i++) {
         for(std::size_t j = 0; j < m_grid[i].size(); j++) {
-            Cell cell = {uid(mt) == 1, false, "0"};
+            const Cell cell = {{i,j} ,'0',uid(mt) == 1, false};
             m_grid[i][j] = cell;
         }
     }
 
     //initialize the number for neighbours who have bombs
-    auto check_neighbour = [](int row, int column, auto& grid) {
+    auto check_neighbour = [](int row, int column, auto& grid) -> char {
         int sum = 0;
 
         int start_row {std::max(row - 1, 0)};
@@ -28,31 +28,32 @@ void Game::init(const std::pair<int, int>& cell_cords) {
         int start_column{ std::max(column - 1 , 0)};
         int end_column{ std::min(column + 1, static_cast<int>(grid[0].size()) - 1)};
 
-        for(int i = start_row; i <= end_row; i++) {
-            for(int j = start_column; j <= end_column; j++) {
+        for(std::size_t i = start_row; i <= end_row; i++) {
+            for(std::size_t j = start_column; j <= end_column; j++) {
                 if(grid[i][j].is_bomb) {
                     sum++;
                 }
             }
         }
 
-        return std::to_string(sum);
+        return sum + '0';
     };
 
     //make sure doesn't click straightaway on a bomb
-    std::pair<int,int> start_index, stop_index;
-    start_index.first = std::max(cell_cords.first - 1, 0);
-    start_index.second = std::max(cell_cords.second - 1, 0 );
+    {
+        std::pair<int,int> start_index, stop_index;
+        start_index.first = std::max(cell_cords.first - 1, 0);
+        start_index.second = std::max(cell_cords.second - 1, 0 );
 
-    stop_index.first = std::min(cell_cords.first + 1, static_cast<int>(m_grid.size()) - 1);
-    stop_index.second = std::min(cell_cords.second + 1, static_cast<int>(m_grid[0].size()) - 1);
+        stop_index.first = std::min(cell_cords.first + 1, static_cast<int>(m_grid.size()) - 1);
+        stop_index.second = std::min(cell_cords.second + 1, static_cast<int>(m_grid[0].size()) - 1);
 
-    for(int i = start_index.first; i <= stop_index.first; i++) {
-        for(int j = start_index.first; j <= stop_index.second; j++) {
-            m_grid[i][j] = {false, false, "0", {i, j}};
+        for(std::size_t i = start_index.first; i <= stop_index.first; i++) {
+            for(std::size_t j = start_index.first; j <= stop_index.second; j++) {
+                m_grid[i][j] = {{i, j},'0', false, false};
+            }
         }
     }
-
 
     for(std::size_t i = 0; i < m_grid.size(); i++) {
         for(std::size_t j = 0; j < m_grid[i].size(); j++) {
@@ -65,7 +66,7 @@ void Game::init(const std::pair<int, int>& cell_cords) {
     }
 
 }
-void Game::display() {
+void Game::display() const {
     if(!m_initialized) {
         for(std::size_t i = 0; i < m_grid.size(); i++) {
             for(std::size_t j = 0; j < m_grid[i].size(); j++) {
@@ -92,19 +93,20 @@ void Game::choose(const std::pair<int, int> &cell_cords) {
         std::cout << "you lost! \n";
         return;
     }
+
     dfs(m_grid, cell_cords.first, cell_cords.second,  m_grid.size(), m_grid[0].size());
     check();
 }
-void Game::dfs(std::vector<std::vector<Cell>>& m_grid, int x, int y, int rows, int cols){
-    if(
-        x < 0 || x >= rows ||
-        y < 0 || y >= cols
-        )
+void Game::dfs(std::vector<std::vector<Cell>>& m_grid, int x, int y, std::size_t rows, std::size_t cols) {
+    // Boundary conditions and cell properties
+    if (x < 0 || x >= rows || y < 0 || y >= cols || m_grid[x][y].is_picked || m_grid[x][y].is_bomb)
         return;
 
-    else if(m_grid[x][y].is_bomb || m_grid[x][y].is_picked) return;
-
     m_grid[x][y].is_picked = true;
+
+    if (m_grid[x][y].content != '0')
+        return;
+
     dfs(m_grid, x - 1, y, rows, cols);
     dfs(m_grid, x + 1, y, rows, cols);
     dfs(m_grid, x, y - 1, rows, cols);
@@ -114,7 +116,7 @@ void Game::check() {
     bool winning_cond {true};
     for(std::size_t i = 0; i < m_grid.size(); i++) {
         for(std::size_t j = 0; j < m_grid[i].size(); j++) {
-            if(!m_grid[i][j].is_picked) winning_cond = false;
+            if(!m_grid[i][j].is_picked && !m_grid[i][j].is_bomb) winning_cond = false;
         }
     }
 

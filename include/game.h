@@ -10,21 +10,21 @@
 #include <iostream>
 
 struct Cell {
+    std::pair<int,int> cords;
+    char content;
     bool is_bomb;
     bool is_picked;
-    std::string content;
-    std::pair<int,int> cords;
 };
 class Game {
 public:
     //constructors
-    Game(int rows = 0, int columns = 0)
+    explicit Game(int rows = 0, int columns = 0)
         :m_initialized(false), m_running(true)
     {
         if(rows == 0 || columns == 0) {
             std::random_device rd;
             std::mt19937 mt(rd());
-            std::uniform_int_distribution uid(10, 50);
+            std::uniform_int_distribution uid(5, 50);
 
             int rows = uid(mt);
             int columns = rows + 10;
@@ -36,27 +36,29 @@ public:
         }
         else {
             m_grid.resize(rows);
-            for(int i = 0; i < m_grid.size(); i++) {
-                m_grid[i].resize(columns);
+            for(auto& row: m_grid) {
+                row.resize(columns);
             }
         }
     }
 
     //methods
-    void display();
     void init(const std::pair<int, int>& cell_cords);
     void choose(const std::pair<int,int>& cell_cords);
+
+    static void dfs(std::vector<std::vector<Cell>>& m_grid, int x, int y, std::size_t rows, std::size_t cols);
     void check();
-    void dfs(std::vector<std::vector<Cell>>& m_grid, int x, int y, int rows, int cols);
+    void display() const;
 
-    //getters and setters
-    bool initialized() const{ return m_initialized;}
-    bool running() const {return m_running;}
 
+    //getters
+    [[nodiscard]] bool initialized() const{ return m_initialized;}
+    [[nodiscard]] bool running() const {return m_running;}
+    [[nodiscard]] int rows() const{return m_grid.size();}
+    [[nodiscard]] int cols() const{return m_grid[0].size();}
+
+    //setters
     void run(){m_running = true;}
-
-    int rows() const{return m_grid.size();}
-    int cols() const{return m_grid[0].size();}
 
 private:
     std::vector<std::vector<Cell>> m_grid;

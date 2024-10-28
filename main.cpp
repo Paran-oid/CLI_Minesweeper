@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
             std::cout << "enter the number of rows\n";
             std::cin >> rows;
             cols = rows + 10;
-        }while(rows < 10);
+        }while(rows < 5);
     }
 
     auto g{std::make_unique<Game>(rows, cols)};
@@ -56,12 +56,8 @@ int main(int argc, char const *argv[])
             std::cin >> choice;
         } while(std::toupper(choice) != 'Y' && std::toupper(choice) != 'N' );
         if(choice == 'N') break;
-        else g->run();
+        g->run();
     }
     std::cout << "thank you for trying my game! \n";
 }
 
-//DIVIDE CHUNKS OF CODE INTO MULTIPLE CPP FILES
-//OPTIMIZE AND CLEAN CODE
-//USE WHAT I LEARNED FROM ALL THE TUTORIALS
-//ADD GUI!
