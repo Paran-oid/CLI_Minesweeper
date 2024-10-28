@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.29)
 project(Minesweeper)
 set(CMAKE_CXX_STANDARD 26)
 
-# Find SFML library components
-find_package(SFML COMPONENTS graphics window system audio REQUIRED)
+# Find SFML library components and set them up if you want
+#find_package(SFML COMPONENTS graphics window system audio REQUIRED)
+#target_link_libraries(Minesweeper sfml-graphics sfml-system)
 
 
 set(INCLUDE_DIR include)
@@ -23,4 +24,3 @@ add_executable(Minesweeper
         ${INCLUDE}
 )
 
-target_link_libraries(Minesweeper sfml-graphics sfml-system)
