@@ -13,7 +13,7 @@ include_directories(${INCLUDE_DIR})
 
 set (SRC
         src/game.cpp
-        main.cpp
+        src/main.cpp
 )
 
 set (INCLUDE
