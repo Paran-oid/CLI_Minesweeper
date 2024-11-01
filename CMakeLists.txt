@@ -7,20 +7,18 @@ set(CMAKE_CXX_STANDARD 26)
 #target_link_libraries(Minesweeper sfml-graphics sfml-system)
 
 
-set(INCLUDE_DIR include)
-include_directories(${INCLUDE_DIR})
+set(SFML_DIR lib/SFML)
 
+include_directories(include)
 
 set (SRC
         src/game.cpp
         src/main.cpp
+        src/ui.cpp
 )
-
-set (INCLUDE
-        include/game.h)
-
 add_executable(Minesweeper
         ${SRC}
         ${INCLUDE}
 )
 
+target_link_libraries(Minesweeper sfml-graphics sfml-window sfml-system)
