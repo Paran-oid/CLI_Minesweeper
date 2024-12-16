@@ -14,11 +14,9 @@ include_directories(include)
 set (SRC
         src/game.cpp
         src/main.cpp
-        src/ui.cpp
 )
 add_executable(Minesweeper
         ${SRC}
-        ${INCLUDE}
 )
 
 target_link_libraries(Minesweeper sfml-graphics sfml-window sfml-system)

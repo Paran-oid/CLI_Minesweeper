@@ -7,26 +7,8 @@
 
 int main(int argc, char const *argv[])
 {
-    //ui code
-    {
-        sf::RenderWindow window(sf::VideoMode(768, 600), "Minesweeper");
-        while(window.isOpen()) {
-            sf::Event event;
-            while(window.pollEvent(event)) {
-                if(event.type == sf::Event::Closed) {
-                    window.close();
-                }
-            }
-            window.clear(sf::Color::White);
-            window.display();
-        }
-    }
-
-    //functionality code
-    /*{
         std::cout << "Welcome to Minesweeper! \n"
                     "Do you want to initialize the rows?(Y/N) \n";
-
         //check if user wants to input his own rows or not
         char choice;
         do {
@@ -77,7 +59,5 @@ int main(int argc, char const *argv[])
             g->run();
         }
         std::cout << "thank you for trying my game! \n";
-    }*/
-
 }
 
